@@ -10,7 +10,6 @@
 <body>
   <div class="app-shell">
     <div class="mobile-topbar">
-      <button id="abrirMenu" class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
       <strong>👑 MEU JOGO</strong>
       <span class="mobile-balance">🪙 <span id="saldoMobile">0</span></span>
     </div>
@@ -54,12 +53,9 @@
           </div>
         </div>
         <div class="content-card">
-          <h2>🚀 Melhorias rápidas</h2>
-          <p class="muted">Use suas moedas para aumentar sua produção.</p>
-          <div class="action-grid">
-            <button id="upgrade">Upgrade de clique - 10 moedas</button>
-            <button id="upgradesegundo">Upgrade por segundo - 20 moedas</button>
-          </div>
+          <h2>🚀 Melhorias</h2>
+          <p class="muted">Acesse a loja para comprar melhorias e aumentar sua produção.</p>
+          <button class="primary-button" data-page="loja">Abrir loja normal</button>
         </div>
       </section>
 
@@ -139,6 +135,40 @@
               <button id="upgradeVipSegundo">Upgrade VIP - +10 por segundo</button>
             </div>
           </div>
+
+          <div id="vipBaus" style="display:none;">
+            <hr>
+            <h2>👑 Baús Exclusivos VIP</h2>
+            <p class="muted">Baús especiais com equipamentos exclusivos e mais poderosos!</p>
+            <div class="vip-chest-grid">
+              <div class="vip-bau">
+                <h3>👑 Baú VIP</h3>
+                <p>Equipamentos especiais.</p>
+                <p>50.000 moedas ou 300 Golds</p>
+                <button onclick="abrirBauVip('vip', 'moedas')">Abrir com moedas</button>
+                <button onclick="abrirBauVip('vip', 'golds')">Abrir com Golds</button>
+              </div>
+              <div class="vip-bau">
+                <h3>💎 Baú VIP Supremo</h3>
+                <p>Equipamentos extremamente raros.</p>
+                <p>200.000 moedas ou 800 Golds</p>
+                <button onclick="abrirBauVip('supremo', 'moedas')">Abrir com moedas</button>
+                <button onclick="abrirBauVip('supremo', 'golds')">Abrir com Golds</button>
+              </div>
+              <div class="vip-bau">
+                <h3>🔱 Baú VIP Lendário</h3>
+                <p>Os melhores equipamentos VIP.</p>
+                <p>750.000 moedas ou 2.000 Golds</p>
+                <button onclick="abrirBauVip('lendario', 'moedas')">Abrir com moedas</button>
+                <button onclick="abrirBauVip('lendario', 'golds')">Abrir com Golds</button>
+              </div>
+            </div>
+            <div class="result-panel">
+              <h3>🎁 Resultado do Baú VIP</h3>
+              <p id="resultadoBauVip">Você ainda não abriu um baú VIP.</p>
+            </div>
+          </div>
+
           <hr>
           <h3>🎁 Código VIP</h3>
           <div class="inline-form">
@@ -216,29 +246,43 @@
     </main>
   </div>
 
+  <nav class="mobile-bottom-nav" aria-label="Navegação mobile">
+    <button class="mobile-nav-item active" data-page="cliques"><span>🖱️</span><small>Cliques</small></button>
+    <button class="mobile-nav-item" data-page="loja"><span>🛒</span><small>Loja</small></button>
+    <button class="mobile-nav-item" data-page="baus"><span>🎁</span><small>Baús</small></button>
+    <button class="mobile-nav-item" data-page="inventario"><span>🎒</span><small>Itens</small></button>
+    <button class="mobile-nav-item" id="maisMobile" aria-expanded="false"><span>☰</span><small>Mais</small></button>
+  </nav>
+  <div id="maisMenuMobile" class="more-mobile-menu">
+    <button data-page="golds">💰 Loja de Golds</button>
+    <button data-page="atributos">⚙️ Atributos</button>
+    <button data-page="vip">👑 Área VIP</button>
+    <button data-page="admin">🔐 Administrador</button>
+  </div>
+
   <script src="botao.js"></script>
   <script>
     (function () {
       const pages = Array.from(document.querySelectorAll(".page"));
       const navButtons = Array.from(document.querySelectorAll(".nav-item"));
       const title = document.getElementById("tituloPagina");
-      const sidebar = document.getElementById("menuLateral");
-      const backdrop = document.getElementById("fundoMenu");
-      const menuToggle = document.getElementById("abrirMenu");
+      const moreButton = document.getElementById("maisMobile");
+      const moreMenu = document.getElementById("maisMenuMobile");
 
       function abrirPagina(nome) {
         pages.forEach(page => page.classList.toggle("active", page.id === "page-" + nome));
-        navButtons.forEach(button => button.classList.toggle("active", button.dataset.page === nome));
+        document.querySelectorAll(".nav-item, .mobile-nav-item").forEach(button =>
+          button.classList.toggle("active", button.dataset.page === nome)
+        );
         const pagina = document.getElementById("page-" + nome);
         title.textContent = pagina ? pagina.dataset.title : "🖱️ Cliques";
-        fecharMenu();
+        fecharMais();
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      function fecharMenu() {
-        sidebar.classList.remove("open");
-        backdrop.classList.remove("visible");
-        menuToggle.setAttribute("aria-expanded", "false");
+      function fecharMais() {
+        moreMenu.classList.remove("visible");
+        moreButton.setAttribute("aria-expanded", "false");
       }
 
       navButtons.forEach(button => button.addEventListener("click", () => abrirPagina(button.dataset.page)));
@@ -246,12 +290,13 @@
         button.addEventListener("click", () => abrirPagina(button.dataset.page))
       );
       document.getElementById("voltarCliques").addEventListener("click", () => abrirPagina("cliques"));
-      menuToggle.addEventListener("click", () => {
-        const aberto = sidebar.classList.toggle("open");
-        backdrop.classList.toggle("visible", aberto);
-        menuToggle.setAttribute("aria-expanded", String(aberto));
+      moreButton.addEventListener("click", () => {
+        const aberto = moreMenu.classList.toggle("visible");
+        moreButton.setAttribute("aria-expanded", String(aberto));
       });
-      backdrop.addEventListener("click", fecharMenu);
+      document.addEventListener("click", event => {
+        if (!moreMenu.contains(event.target) && !moreButton.contains(event.target)) fecharMais();
+      });
 
       const observer = new MutationObserver(() => {
         const saldo = document.getElementById("moedas").textContent;
