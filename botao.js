@@ -23,17 +23,22 @@ function atualizarMoedas() {
 
     contador.textContent = moedas;
 
-    ganhoTexto.textContent = ganho + bonus.clique;
+    if (ganhoTexto) ganhoTexto.textContent = ganho + bonus.clique;
 
-    ganhoSegundoTexto.textContent = ganhoSegundo + bonus.ciclo;
+    if (ganhoSegundoTexto) ganhoSegundoTexto.textContent = ganhoSegundo + bonus.ciclo;
 
     intervaloTexto.textContent =
         (bonus.intervalo / 1000).toFixed(2) + " segundos";
 }
 
 botao.addEventListener("click", function() {
-    moedas += ganho;
+
+    let bonus = calcularBonusItens();
+
+    moedas += ganho + bonus.clique;
+
     atualizarMoedas();
+
 });
 
 // Ganhar moedas a cada segundo
@@ -1142,14 +1147,26 @@ function mostrarAtributosItens() {
 
     let bonus = calcularBonusItens();
 
-    document.getElementById("atributosItens").textContent =
-        "Clique: +" + bonus.clique +
-        " | Ciclo: +" + bonus.ciclo +
-        " | Intervalo: " +
-        (bonus.intervalo / 1000).toFixed(2) + " segundos";
+    let cliqueAtual = ganho + bonus.clique;
+    let cicloAtual = ganhoSegundo + bonus.ciclo;
 
+    document.getElementById("atributosItens").innerHTML = `
+        <div class="itemInventario">
+            <h3>🖱️ Força do clique</h3>
+            <p>${cliqueAtual} moedas por clique</p>
+        </div>
+
+        <div class="itemInventario">
+            <h3>⏱️ Ganho automático</h3>
+            <p>${cicloAtual} moedas por ciclo</p>
+        </div>
+
+        <div class="itemInventario">
+            <h3>⚡ Intervalo de ganho</h3>
+            <p>${(bonus.intervalo / 1000).toFixed(2)} segundos</p>
+        </div>
+    `;
 }
-
 
 // ==========================================
 // INICIALIZAÇÃO
@@ -1166,3 +1183,5 @@ mostrarHistorico();
 mostrarProdutosAdmin();
 
 mostrarInventario();
+
+mostrarAtributosItens();

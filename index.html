@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -12,8 +11,9 @@
     <h1>Minhas Moedas</h1>
 
     <p>Saldo: <span id="moedas">0</span> moedas</p>
-    <p>Por Click: <span id="ganhoSegundoTexto">1</span></p>
-    <p>PorSegundo: <span id="intervaloTexto">1 segundo</span></p>
+    <p>Por clique: <span id="ganhoTexto">1</span> moedas</p>
+    <p>Por ciclo: <span id="ganhoSegundoTexto">1</span> moedas</p>
+    <p>Intervalo: <span id="intervaloTexto">1 segundo</span></p>
 
     <button id="botaomoeda">Ganhar moedas</button>
 
@@ -30,7 +30,6 @@
 
     <div id="lojaVip">
         <p id="statusVip">🔒 Área exclusiva VIP</p>
-
         <button id="botaoVip">VIP liberado somente por código</button>
 
         <div id="upgradesVip" style="display: none;">
@@ -39,189 +38,108 @@
         </div>
 
         <h3>🎁 Código VIP</h3>
-
         <input type="text" id="codigoInput" placeholder="Digite seu código">
         <button id="resgatarCodigo">Resgatar</button>
-
         <p id="mensagemCodigo"></p>
     </div>
 
     <hr>
 
-    <!-- LOJA DE GOLDS -->
-
     <div id="lojaGolds">
-
         <h1>💰 Loja Especial</h1>
-
-        <p>
-            Seus Golds:
-            <strong id="saldoGolds">0</strong>
-            🪙
-        </p>
-
+        <p>Seus Golds: <strong id="saldoGolds">0</strong> 🪙</p>
         <p>Compre produtos utilizando seus Golds!</p>
-
         <div id="produtosLoja">
             <p>Nenhum produto disponível no momento.</p>
+        </div>
+        <hr>
+        <h2>📜 Histórico de compras</h2>
+        <div id="historicoCompras">
+            <p>Nenhuma compra realizada.</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div id="lojaBaus">
+        <h1>🎁 Loja de Baús</h1>
+        <p>Escolha seu baú e descubra seu prêmio!</p>
+
+        <div class="bau">
+            <h2>🪵 Baú de Madeira</h2>
+            <p>Baú para quem está começando.</p>
+            <p>500 moedas ou 10 Golds</p>
+            <button onclick="abrirBau('madeira', 'moedas')">Comprar com moedas</button>
+            <button onclick="abrirBau('madeira', 'golds')">Comprar com Golds</button>
+        </div>
+
+        <div class="bau">
+            <h2>🥈 Baú de Prata</h2>
+            <p>Possui itens melhores e mais raros.</p>
+            <p>2.500 moedas ou 40 Golds</p>
+            <button onclick="abrirBau('prata', 'moedas')">Comprar com moedas</button>
+            <button onclick="abrirBau('prata', 'golds')">Comprar com Golds</button>
+        </div>
+
+        <div class="bau">
+            <h2>🥇 Baú de Ouro</h2>
+            <p>Possui grandes recompensas!</p>
+            <p>10.000 moedas ou 150 Golds</p>
+            <button onclick="abrirBau('ouro', 'moedas')">Comprar com moedas</button>
+            <button onclick="abrirBau('ouro', 'golds')">Comprar com Golds</button>
+        </div>
+
+        <h2>🎉 Resultado do baú</h2>
+        <p id="resultadoBau">Você ainda não abriu nenhum baú.</p>
+
+        <hr>
+
+        <h2>🎒 Meu inventário</h2>
+        <div id="inventarioItens">
+            <p>Nenhum item conquistado.</p>
         </div>
 
         <hr>
 
-        <h2>📜 Histórico de compras</h2>
-
-        <div id="historicoCompras">
-            <p>Nenhuma compra realizada.</p>
-        </div>
-
+        <h2>⚙️ Atributos atuais</h2>
+        <div id="atributosItens"></div>
     </div>
 
     <hr>
-
-    <!-- SISTEMA DE BAÚS -->
-
-<div id="lojaBaus">
-
-    <h1>🎁 Loja de Baús</h1>
-
-    <p>Escolha seu baú e descubra seu prêmio!</p>
-
-    <div class="bau">
-        <h2>🪵 Baú de Madeira</h2>
-        <p>Baú para quem está começando.</p>
-        <p>500 moedas ou 10 Golds</p>
-        <button onclick="abrirBau('madeira', 'moedas')">
-            Comprar com moedas
-        </button>
-        <button onclick="abrirBau('madeira', 'golds')">
-            Comprar com Golds
-        </button>
-    </div>
-
-    <div class="bau">
-        <h2>🥈 Baú de Prata</h2>
-        <p>Possui itens melhores e mais raros.</p>
-        <p>2.500 moedas ou 40 Golds</p>
-        <button onclick="abrirBau('prata', 'moedas')">
-            Comprar com moedas
-        </button>
-        <button onclick="abrirBau('prata', 'golds')">
-            Comprar com Golds
-        </button>
-    </div>
-
-    <div class="bau">
-        <h2>🥇 Baú de Ouro</h2>
-        <p>Possui grandes recompensas!</p>
-        <p>10.000 moedas ou 150 Golds</p>
-        <button onclick="abrirBau('ouro', 'moedas')">
-            Comprar com moedas
-        </button>
-        <button onclick="abrirBau('ouro', 'golds')">
-            Comprar com Golds
-        </button>
-    </div>
-
-    <h2>🎉 Resultado do baú</h2>
-    <p id="resultadoBau">Você ainda não abriu nenhum baú.</p>
-
-    <hr>
-
-    <h2>🎒 Meu inventário</h2>
-    <div id="inventarioItens">
-        <p>Nenhum item conquistado.</p>
-    </div>
-
-    <hr>
-
-    <h2>⚙️ Atributos atuais</h2>
-    <div id="atributosItens"></div>
-
-</div>
-
-    <hr>
-
-    <!-- LOGIN ADM -->
 
     <div id="loginAdmin">
-
         <h2>🔐 Área administrativa</h2>
-
-        <input
-            type="password"
-            id="senhaAdmin"
-            placeholder="Digite sua senha"
-        >
-
+        <input type="password" id="senhaAdmin" placeholder="Digite sua senha">
         <button id="entrarAdmin">Entrar</button>
-
         <p id="mensagemLogin"></p>
-
     </div>
 
-    <!-- PAINEL ADM -->
-
     <div id="painelAdmin">
-
         <h1>👑 Painel de Administrador</h1>
 
         <h3>Adicionar moedas normais</h3>
-
-        <input
-            type="number"
-            id="quantidadeMoedas"
-            placeholder="Quantidade de moedas"
-        >
-
+        <input type="number" id="quantidadeMoedas" placeholder="Quantidade de moedas">
         <button id="adicionarMoedas">Adicionar moedas</button>
 
         <hr>
 
         <h3>💰 Adicionar Golds</h3>
-
-        <input
-            type="number"
-            id="quantidadeGolds"
-            placeholder="Quantidade de Golds"
-        >
-
+        <input type="number" id="quantidadeGolds" placeholder="Quantidade de Golds">
         <button id="adicionarGolds">Adicionar Golds</button>
 
         <hr>
 
         <h3>🛍️ Cadastrar produto na loja</h3>
-
-        <input
-            type="text"
-            id="nomeProduto"
-            placeholder="Nome do produto"
-        >
-
-        <textarea
-            id="descricaoProduto"
-            placeholder="Descrição do produto"
-        ></textarea>
-
-        <input
-            type="number"
-            id="precoProduto"
-            placeholder="Preço em Golds"
-        >
-
-        <input
-            type="number"
-            id="estoqueProduto"
-            placeholder="Estoque (vazio = ilimitado)"
-        >
-
+        <input type="text" id="nomeProduto" placeholder="Nome do produto">
+        <textarea id="descricaoProduto" placeholder="Descrição do produto"></textarea>
+        <input type="number" id="precoProduto" placeholder="Preço em Golds">
+        <input type="number" id="estoqueProduto" placeholder="Estoque (vazio = ilimitado)">
         <button id="cadastrarProduto">Cadastrar produto</button>
-
         <p id="mensagemProduto"></p>
 
         <hr>
 
         <h3>📦 Gerenciar produtos</h3>
-
         <div id="gerenciarProdutos">
             <p>Nenhum produto cadastrado.</p>
         </div>
@@ -229,42 +147,26 @@
         <hr>
 
         <h3>🎟️ Criar código VIP</h3>
-
-        <input
-            type="text"
-            id="novoCodigo"
-            placeholder="Nome do código"
-        >
-
+        <input type="text" id="novoCodigo" placeholder="Nome do código">
         <button id="criarCodigo">Criar código</button>
-
         <p id="listaCodigos"></p>
 
         <hr>
 
         <h3>Upgrades gratuitos</h3>
-
-        <button id="upgradeGratisClique">
-            +10 moedas por clique
-        </button>
-
-        <button id="upgradeGratisSegundo">
-            +10 moedas por segundo
-        </button>
+        <button id="upgradeGratisClique">+10 moedas por clique</button>
+        <button id="upgradeGratisSegundo">+10 moedas por segundo</button>
 
         <hr>
 
         <h3>Controle VIP</h3>
-
         <button id="ativarVipAdmin">Ativar VIP</button>
 
         <hr>
 
         <button id="sairAdmin">Sair do painel</button>
-
     </div>
 
     <script src="botao.js"></script>
-
 </body>
 </html>
