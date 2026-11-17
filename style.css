@@ -137,3 +137,61 @@ hr {
         padding: 12px;
     }
 }
+
+/* SISTEMA DE BAÚS */
+
+#lojaBaus {
+    background: #201b2c;
+    border: 2px solid #a875ff;
+    border-radius: 15px;
+    padding: 20px;
+    max-width: 850px;
+    margin: 25px auto;
+}
+
+#lojaBaus h1 {
+    color: #c49aff;
+}
+
+.bau {
+    background: #292929;
+    border: 2px solid #a875ff;
+    border-radius: 12px;
+    padding: 18px;
+    margin: 15px auto;
+    max-width: 500px;
+}
+
+.bau h2 {
+    color: #d6baff;
+}
+
+#resultadoBau {
+    background: #292929;
+    padding: 15px;
+    border-radius: 10px;
+    color: gold;
+    font-weight: bold;
+}
+
+.itemInventario {
+    background: #292929;
+    border: 1px solid #a875ff;
+    border-radius: 10px;
+    padding: 12px;
+    margin: 10px auto;
+    max-width: 450px;
+}
+
+.itemInventario h3 {
+    color: gold;
+}
+
+.itemInventario button {
+    margin-top: 8px;
+}
+
+.equipado {
+    color: #54e68a;
+    font-weight: bold;
+}

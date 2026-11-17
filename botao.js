@@ -2,7 +2,7 @@
 // ==========================================
 // SISTEMA DE MOEDAS NORMAIS
 // ==========================================
-
+let intervaloTexto = document.getElementById("intervaloTexto");
 let moedas = 0;
 
 let ganho = 1;
@@ -18,9 +18,17 @@ let ganhoTexto = document.getElementById("ganhoTexto");
 let ganhoSegundoTexto = document.getElementById("ganhoSegundoTexto");
 
 function atualizarMoedas() {
+
+    let bonus = calcularBonusItens();
+
     contador.textContent = moedas;
-    ganhoTexto.textContent = ganho;
-    ganhoSegundoTexto.textContent = ganhoSegundo;
+
+    ganhoTexto.textContent = ganho + bonus.clique;
+
+    ganhoSegundoTexto.textContent = ganhoSegundo + bonus.ciclo;
+
+    intervaloTexto.textContent =
+        (bonus.intervalo / 1000).toFixed(2) + " segundos";
 }
 
 botao.addEventListener("click", function() {
@@ -30,10 +38,29 @@ botao.addEventListener("click", function() {
 
 // Ganhar moedas a cada segundo
 
+let ultimoTick = Date.now();
+let acumuladorTempo = 0;
+
 setInterval(function() {
-    moedas += ganhoSegundo;
+
+    let agora = Date.now();
+
+    acumuladorTempo += agora - ultimoTick;
+
+    ultimoTick = agora;
+
+    let bonus = calcularBonusItens();
+
+    while (acumuladorTempo >= bonus.intervalo) {
+
+        moedas += ganhoSegundo + bonus.ciclo;
+
+        acumuladorTempo -= bonus.intervalo;
+    }
+
     atualizarMoedas();
-}, 1000);
+
+}, 100);
 
 
 // ==========================================
@@ -702,6 +729,427 @@ sairAdmin.addEventListener("click", function() {
 
 });
 
+// ==========================================
+// SISTEMA DE BAÚS E INVENTÁRIO
+// ==========================================
+
+// Itens disponíveis
+
+let todosItens = [
+
+    // CATEGORIA: CLIQUE
+
+    {
+        id: "luva1",
+        nome: "Luva de Poder",
+        categoria: "clique",
+        raridade: "Comum",
+        descricao: "+5 moedas por clique",
+        bonusClique: 5,
+        bonusCiclo: 0,
+        intervalo: 0,
+        conversao: 100
+    },
+
+    {
+        id: "luva2",
+        nome: "Luva Dourada",
+        categoria: "clique",
+        raridade: "Raro",
+        descricao: "+15 moedas por clique",
+        bonusClique: 15,
+        bonusCiclo: 0,
+        intervalo: 0,
+        conversao: 300
+    },
+
+    {
+        id: "luva3",
+        nome: "Luva Real",
+        categoria: "clique",
+        raridade: "Épico",
+        descricao: "+40 moedas por clique",
+        bonusClique: 40,
+        bonusCiclo: 0,
+        intervalo: 0,
+        conversao: 800
+    },
+
+    // CATEGORIA: INTERVALO
+
+    {
+        id: "relogio1",
+        nome: "Relógio Preciso",
+        categoria: "intervalo",
+        raridade: "Raro",
+        descricao: "Reduz o intervalo em 0,2 segundo",
+        bonusClique: 0,
+        bonusCiclo: 0,
+        intervalo: -200,
+        conversao: 300
+    },
+
+    {
+        id: "relogio2",
+        nome: "Relógio de Cronos",
+        categoria: "intervalo",
+        raridade: "Épico",
+        descricao: "Reduz o intervalo em 0,4 segundo",
+        bonusClique: 0,
+        bonusCiclo: 0,
+        intervalo: -400,
+        conversao: 800
+    },
+
+    {
+        id: "ampulheta",
+        nome: "Ampulheta Mágica",
+        categoria: "intervalo",
+        raridade: "Lendário",
+        descricao: "+15 moedas por ciclo, mas aumenta o intervalo em 1 segundo",
+        bonusClique: 0,
+        bonusCiclo: 15,
+        intervalo: 1000,
+        conversao: 1500
+    },
+
+    // CATEGORIA: PRODUÇÃO
+
+    {
+        id: "gerador1",
+        nome: "Gerador Básico",
+        categoria: "producao",
+        raridade: "Comum",
+        descricao: "+5 moedas por ciclo",
+        bonusClique: 0,
+        bonusCiclo: 5,
+        intervalo: 0,
+        conversao: 100
+    },
+
+    {
+        id: "gerador2",
+        nome: "Gerador Avançado",
+        categoria: "producao",
+        raridade: "Épico",
+        descricao: "+20 moedas por ciclo",
+        bonusClique: 0,
+        bonusCiclo: 20,
+        intervalo: 0,
+        conversao: 800
+    }
+
+];
+
+// Inventário e equipamentos
+
+let inventarioItens = [];
+
+let itensEquipados = {
+    clique: null,
+    intervalo: null,
+    producao: null
+};
+
+
+// ==========================================
+// CALCULAR ATRIBUTOS DOS EQUIPAMENTOS
+// ==========================================
+
+function calcularBonusItens() {
+
+    let bonus = {
+        clique: 0,
+        ciclo: 0,
+        intervalo: 1000
+    };
+
+    Object.values(itensEquipados).forEach(function(id) {
+
+        if (!id) return;
+
+        let item = todosItens.find(function(i) {
+            return i.id === id;
+        });
+
+        if (!item) return;
+
+        bonus.clique += item.bonusClique;
+        bonus.ciclo += item.bonusCiclo;
+        bonus.intervalo += item.intervalo;
+
+    });
+
+    // Impede intervalos menores que 0,25 segundo.
+
+    bonus.intervalo = Math.max(250, bonus.intervalo);
+
+    return bonus;
+}
+
+
+// ==========================================
+// PROBABILIDADES DOS BAÚS
+// ==========================================
+
+let probabilidadesBaus = {
+
+    madeira: {
+        Comum: 75,
+        Raro: 22,
+        Épico: 3,
+        Lendário: 0
+    },
+
+    prata: {
+        Comum: 35,
+        Raro: 45,
+        Épico: 18,
+        Lendário: 2
+    },
+
+    ouro: {
+        Comum: 10,
+        Raro: 30,
+        Épico: 45,
+        Lendário: 15
+    }
+
+};
+
+
+// ==========================================
+// SORTEAR ITEM
+// ==========================================
+
+function sortearItem(tipo) {
+
+    let probabilidades = probabilidadesBaus[tipo];
+
+    let sorteio = Math.random() * 100;
+
+    let acumulado = 0;
+
+    let raridadeEscolhida;
+
+    for (let raridade in probabilidades) {
+
+        acumulado += probabilidades[raridade];
+
+        if (sorteio < acumulado) {
+
+            raridadeEscolhida = raridade;
+
+            break;
+        }
+
+    }
+
+    let disponiveis = todosItens.filter(function(item) {
+
+        return item.raridade === raridadeEscolhida;
+
+    });
+
+    return disponiveis[
+        Math.floor(Math.random() * disponiveis.length)
+    ];
+}
+
+
+// ==========================================
+// ABRIR BAÚ
+// ==========================================
+
+function abrirBau(tipo, moeda) {
+
+    let precos = {
+
+        madeira: {
+            moedas: 500,
+            golds: 10
+        },
+
+        prata: {
+            moedas: 2500,
+            golds: 40
+        },
+
+        ouro: {
+            moedas: 10000,
+            golds: 150
+        }
+
+    };
+
+    let preco = precos[tipo][moeda];
+
+    if (moeda === "moedas" && moedas < preco) {
+
+        alert("Moedas insuficientes!");
+
+        return;
+    }
+
+    if (moeda === "golds" && golds < preco) {
+
+        alert("Golds insuficientes!");
+
+        return;
+    }
+
+    if (moeda === "moedas") {
+
+        moedas -= preco;
+
+    } else {
+
+        golds -= preco;
+
+    }
+
+    let item = sortearItem(tipo);
+
+    // Item repetido vira moedas.
+
+    if (inventarioItens.includes(item.id)) {
+
+        moedas += item.conversao;
+
+        document.getElementById("resultadoBau").textContent =
+            "🔁 Item repetido! " + item.nome +
+            " convertido em " + item.conversao + " moedas!";
+
+    } else {
+
+        inventarioItens.push(item.id);
+
+        document.getElementById("resultadoBau").textContent =
+            "🎉 Você encontrou: " + item.nome +
+            " (" + item.raridade + ")!";
+
+    }
+
+    atualizarMoedas();
+    atualizarGolds();
+    mostrarInventario();
+
+}
+
+// ==========================================
+// MOSTRAR INVENTÁRIO
+// ==========================================
+
+function mostrarInventario() {
+
+    let inventario = document.getElementById("inventarioItens");
+
+    inventario.innerHTML = "";
+
+    if (inventarioItens.length === 0) {
+
+        inventario.innerHTML = "<p>Nenhum item conquistado.</p>";
+
+        mostrarAtributosItens();
+
+        return;
+    }
+
+    inventarioItens.forEach(function(id) {
+
+        let item = todosItens.find(function(i) {
+            return i.id === id;
+        });
+
+        if (!item) return;
+
+        let equipado = itensEquipados[item.categoria] === item.id;
+
+        let card = document.createElement("div");
+
+        card.className = "itemInventario";
+
+        let titulo = document.createElement("h3");
+        titulo.textContent = item.nome;
+
+        let raridade = document.createElement("p");
+        raridade.textContent = "Raridade: " + item.raridade;
+
+        let descricao = document.createElement("p");
+        descricao.textContent = item.descricao;
+
+        let status = document.createElement("p");
+        status.textContent = equipado ? "EQUIPADO" : "GUARDADO";
+        status.className = equipado ? "equipado" : "";
+
+        card.appendChild(titulo);
+        card.appendChild(raridade);
+        card.appendChild(descricao);
+        card.appendChild(status);
+
+        if (!equipado) {
+
+            let botaoEquipar = document.createElement("button");
+
+            botaoEquipar.textContent = "Equipar";
+
+            botaoEquipar.addEventListener("click", function() {
+
+                equiparItem(item.id);
+
+            });
+
+            card.appendChild(botaoEquipar);
+
+        }
+
+        inventario.appendChild(card);
+
+    });
+
+    mostrarAtributosItens();
+
+}
+
+// ==========================================
+// EQUIPAR ITEM
+// ==========================================
+
+function equiparItem(id) {
+
+    let item = todosItens.find(function(i) {
+        return i.id === id;
+    });
+
+    if (!item || !inventarioItens.includes(id)) return;
+
+    // Um item por categoria.
+    // O novo substitui o anterior.
+
+    itensEquipados[item.categoria] = item.id;
+
+    atualizarMoedas();
+
+    mostrarInventario();
+
+}
+
+// ==========================================
+// MOSTRAR ATRIBUTOS
+// ==========================================
+
+function mostrarAtributosItens() {
+
+    let bonus = calcularBonusItens();
+
+    document.getElementById("atributosItens").textContent =
+        "Clique: +" + bonus.clique +
+        " | Ciclo: +" + bonus.ciclo +
+        " | Intervalo: " +
+        (bonus.intervalo / 1000).toFixed(2) + " segundos";
+
+}
+
 
 // ==========================================
 // INICIALIZAÇÃO
@@ -716,3 +1164,5 @@ mostrarProdutos();
 mostrarHistorico();
 
 mostrarProdutosAdmin();
+
+mostrarInventario();

@@ -12,8 +12,8 @@
     <h1>Minhas Moedas</h1>
 
     <p>Saldo: <span id="moedas">0</span> moedas</p>
-    <p>Por clique: <span id="ganhoTexto">1</span></p>
-    <p>Por segundo: <span id="ganhoSegundoTexto">1</span></p>
+    <p>Por Click: <span id="ganhoSegundoTexto">1</span></p>
+    <p>PorSegundo: <span id="intervaloTexto">1 segundo</span></p>
 
     <button id="botaomoeda">Ganhar moedas</button>
 
@@ -75,6 +75,69 @@
         </div>
 
     </div>
+
+    <hr>
+
+    <!-- SISTEMA DE BAÚS -->
+
+<div id="lojaBaus">
+
+    <h1>🎁 Loja de Baús</h1>
+
+    <p>Escolha seu baú e descubra seu prêmio!</p>
+
+    <div class="bau">
+        <h2>🪵 Baú de Madeira</h2>
+        <p>Baú para quem está começando.</p>
+        <p>500 moedas ou 10 Golds</p>
+        <button onclick="abrirBau('madeira', 'moedas')">
+            Comprar com moedas
+        </button>
+        <button onclick="abrirBau('madeira', 'golds')">
+            Comprar com Golds
+        </button>
+    </div>
+
+    <div class="bau">
+        <h2>🥈 Baú de Prata</h2>
+        <p>Possui itens melhores e mais raros.</p>
+        <p>2.500 moedas ou 40 Golds</p>
+        <button onclick="abrirBau('prata', 'moedas')">
+            Comprar com moedas
+        </button>
+        <button onclick="abrirBau('prata', 'golds')">
+            Comprar com Golds
+        </button>
+    </div>
+
+    <div class="bau">
+        <h2>🥇 Baú de Ouro</h2>
+        <p>Possui grandes recompensas!</p>
+        <p>10.000 moedas ou 150 Golds</p>
+        <button onclick="abrirBau('ouro', 'moedas')">
+            Comprar com moedas
+        </button>
+        <button onclick="abrirBau('ouro', 'golds')">
+            Comprar com Golds
+        </button>
+    </div>
+
+    <h2>🎉 Resultado do baú</h2>
+    <p id="resultadoBau">Você ainda não abriu nenhum baú.</p>
+
+    <hr>
+
+    <h2>🎒 Meu inventário</h2>
+    <div id="inventarioItens">
+        <p>Nenhum item conquistado.</p>
+    </div>
+
+    <hr>
+
+    <h2>⚙️ Atributos atuais</h2>
+    <div id="atributosItens"></div>
+
+</div>
 
     <hr>
 
