@@ -168,7 +168,7 @@ upgradeVipSegundo.addEventListener("click", function() {
 // CÓDIGOS VIP
 // ==========================================
 
-let codigosVip = ["NIKO2026", "VIPGRATIS", "MEGAVIP"];
+let codigosVip = ["Teste2026", "VIPGRATIS", "MEGAVIP"];
 let codigosUsados = [];
 
 let codigoInput = document.getElementById("codigoInput");
