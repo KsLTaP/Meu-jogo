@@ -1,192 +1,192 @@
+* { box-sizing: border-box; }
+:root {
+  color-scheme: dark;
+  --bg: #101114;
+  --panel: #1b1d22;
+  --panel-2: #23262d;
+  --border: #343842;
+  --gold: #f2c94c;
+  --gold-dark: #b98b19;
+  --text: #f4f4f5;
+  --muted: #a7aab3;
+  --purple: #a875ff;
+}
 body {
-    background: #222;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 30px 15px;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
 }
-
+button, input, textarea, select { font: inherit; }
 button {
-    background: gold;
-    color: black;
-    border: none;
-    padding: 12px 18px;
-    font-size: 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 5px;
+  background: var(--gold);
+  color: #171717;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 15px;
+  margin: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .15s, filter .15s;
 }
-
-button:hover { background: orange; }
-
-input, textarea {
-    padding: 10px;
-    border: 2px solid gold;
-    border-radius: 8px;
-    margin: 5px;
-    max-width: 90%;
+button:hover { filter: brightness(1.08); transform: translateY(-1px); }
+button:active { transform: scale(.98); }
+input, textarea, select {
+  width: 100%;
+  max-width: 100%;
+  padding: 11px 12px;
+  margin: 6px 0;
+  border: 1px solid #555b68;
+  border-radius: 9px;
+  background: #111318;
+  color: var(--text);
 }
-
-textarea {
-    display: block;
-    width: 300px;
-    height: 65px;
-    margin: 10px auto;
-    font-family: Arial;
+textarea { min-height: 76px; resize: vertical; }
+hr { border: 0; border-top: 1px solid var(--border); margin: 24px 0; }
+h1, h2, h3, h4 { margin-top: 0; }
+p { line-height: 1.5; }
+.app-shell { min-height: 100vh; }
+.sidebar {
+  width: 248px;
+  position: fixed;
+  inset: 0 auto 0 0;
+  background: #17191e;
+  border-right: 1px solid #2c3038;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  z-index: 30;
 }
-
-hr { margin: 30px 0; border: 1px solid #555; }
-
-#lojaVip {
-    background: #29200c;
-    border: 2px solid gold;
-    border-radius: 12px;
-    padding: 20px;
-    color: gold;
+.brand { color: var(--gold); font-size: 21px; font-weight: 800; padding: 5px 10px 30px; }
+.menu-caption, .eyebrow { color: #8d929e; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; }
+.menu-caption { padding: 0 10px; }
+.nav-menu { display: grid; gap: 7px; }
+.nav-item {
+  text-align: left;
+  width: 100%;
+  margin: 0;
+  background: transparent;
+  color: #d9dbe1;
+  border: 1px solid transparent;
+  padding: 13px 12px;
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  font-weight: 600;
 }
-
-#upgradesVip { margin-top: 15px; }
-
-#lojaGolds {
-    background: #17251d;
-    border: 2px solid #d4af37;
-    border-radius: 15px;
-    padding: 20px;
-    max-width: 850px;
-    margin: 25px auto;
+.nav-item:hover { background: #242730; transform: none; }
+.nav-item.active { background: #3b321d; color: var(--gold); border-color: #665326; }
+.sidebar-footer { margin-top: auto; padding: 18px 10px 4px; color: #777d89; font-size: 13px; }
+.main-content { margin-left: 248px; padding: 30px clamp(18px, 4vw, 56px) 48px; max-width: 1500px; }
+.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 26px; }
+.page-header h1 { margin: 5px 0 0; font-size: clamp(24px, 3vw, 34px); }
+.header-balance { background: #24262c; border: 1px solid #3a3e48; border-radius: 12px; padding: 12px 16px; color: var(--gold); font-weight: 700; white-space: nowrap; }
+.page { display: none; animation: appear .18s ease-out; }
+.page.active { display: block; }
+@keyframes appear { from { opacity: .55; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+.hero-card, .content-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: clamp(18px, 3vw, 30px);
+  margin-bottom: 20px;
+  box-shadow: 0 10px 28px #00000020;
 }
-
-#lojaGolds h1, #lojaGolds h2 { color: gold; }
-#saldoGolds { color: gold; font-size: 25px; }
-
+.hero-card { text-align: center; border-color: #5b4a20; background: radial-gradient(ellipse at top, #302817, #1b1d22 70%); }
+.hero-card .eyebrow { margin-bottom: 5px; }
+.coin-total { color: var(--gold); font-size: clamp(42px, 7vw, 66px); font-weight: 900; }
+.muted { color: var(--muted); }
+.primary-button { background: linear-gradient(135deg, #ffe27a, #dcae28); }
+.click-button { padding: 17px 28px; font-size: 17px; margin: 18px 0; min-height: 56px; }
+.stats-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 15px; }
+.stat { background: #22252b; border: 1px solid #383c45; border-radius: 12px; padding: 13px 8px; display: grid; gap: 7px; }
+.stat span { color: var(--muted); font-size: 13px; }
+.stat strong { color: var(--gold); font-size: 18px; }
+.action-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.action-grid button { min-height: 48px; }
+#lojaGolds { background: #17251d; border-color: #647c53; }
+#lojaGolds h2, #lojaGolds strong { color: var(--gold); }
+#saldoGolds { font-size: 25px; }
 .produto, .itemAdmin {
-    background: #292929;
-    border: 1px solid gold;
-    border-radius: 12px;
-    padding: 18px;
-    margin: 15px auto;
-    max-width: 500px;
+  background: #24262c; border: 1px solid #665326; border-radius: 12px;
+  padding: 16px; margin: 12px 0; text-align: left;
 }
+.produto h3 { color: var(--gold); }
+.itemAdmin { border-color: #555b68; }
+.chest-section { border-color: #7655a6; }
+.chest-section h2 { color: #d6baff; }
+.chest-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.bau { background: #24232b; border: 1px solid #7655a6; border-radius: 13px; padding: 16px; }
+.bau h3 { color: #d6baff; }
+.bau button { width: 100%; margin: 5px 0; }
+.result-panel { margin-top: 20px; padding: 16px; background: #292929; border-radius: 12px; color: var(--gold); }
+.item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.itemInventario { background: #25232d; border: 1px solid var(--purple); border-radius: 12px; padding: 14px; margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.itemInventario h3 { color: var(--gold); font-size: 16px; }
+.itemInventario p { font-size: 14px; }
+.itemInventario button { width: 100%; }
+.equipado { color: #54e68a; font-weight: 800; }
+.vip-card { background: #29200c; border-color: var(--gold-dark); }
+.vip-card h2, .vip-card h3 { color: var(--gold); }
+.inline-form { display: flex; gap: 8px; align-items: center; }
+.inline-form input { flex: 1; }
+#painelAdmin { display: none; }
+.admin-card h2 { color: var(--gold); }
+.admin-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.admin-block { min-width: 0; background: #22252b; border: 1px solid #383c45; border-radius: 12px; padding: 15px; }
+.admin-block h3 { font-size: 16px; color: var(--gold); }
+.admin-block button { max-width: 100%; }
+.secondary-button { background: #343842; color: white; border: 1px solid #555b68; }
+.back-row { margin-top: 22px; }
+.mobile-topbar { display: none; }
+.menu-backdrop { display: none; }
 
-.produto h3 { color: gold; }
-.produto button { margin-top: 10px; }
-
-.itemAdmin {
-    border-color: #777;
-    border-radius: 10px;
-    padding: 12px;
+@media (max-width: 900px) {
+  .sidebar { width: 220px; }
+  .main-content { margin-left: 220px; padding: 24px 20px 40px; }
+  .chest-grid { grid-template-columns: 1fr; }
 }
-
-#painelAdmin {
-    display: none;
-    background: #171717;
-    border: 2px solid gold;
-    border-radius: 15px;
-    padding: 20px;
-    max-width: 600px;
-    margin: 30px auto;
+@media (max-width: 680px) {
+  .mobile-topbar {
+    height: 58px; position: sticky; top: 0; z-index: 25;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 12px; background: #17191e; border-bottom: 1px solid #30343d;
+  }
+  .mobile-topbar strong { color: var(--gold); }
+  .mobile-balance { color: var(--gold); font-size: 13px; font-weight: 700; }
+  .menu-toggle { margin: 0; padding: 8px 12px; background: #2a2d35; color: white; font-size: 20px; }
+  .sidebar {
+    width: min(285px, 84vw); transform: translateX(-105%);
+    transition: transform .22s ease; top: 0; padding-top: 22px;
+    box-shadow: 15px 0 35px #0008;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .menu-backdrop.visible {
+    display: block; position: fixed; inset: 0; z-index: 29; background: #0009;
+  }
+  .main-content { margin-left: 0; padding: 20px 13px 32px; }
+  .page-header { align-items: flex-start; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+  .page-header h1 { font-size: 25px; }
+  .header-balance { display: none; }
+  .hero-card, .content-card { border-radius: 14px; padding: 16px; }
+  .stats-row { gap: 7px; }
+  .stat { padding: 10px 5px; }
+  .stat span { font-size: 11px; }
+  .stat strong { font-size: 16px; }
+  .action-grid, .admin-grid { grid-template-columns: 1fr; }
+  .action-grid button { width: 100%; margin: 3px 0; }
+  .inline-form { flex-direction: column; align-items: stretch; }
+  .inline-form button { width: 100%; margin: 0; }
+  .item-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .itemInventario { padding: 10px; }
+  .itemInventario h3 { font-size: 14px; }
+  .itemInventario p { font-size: 12px; }
+  .bau { padding: 13px; }
+  .bau button { min-height: 44px; }
+  .back-row button { width: 100%; min-height: 45px; }
 }
-
-#painelAdmin h1 { color: gold; }
-#painelAdmin input { display: block; margin: 10px auto; }
-#mensagemProduto { color: gold; }
-#historicoCompras { color: #ddd; }
-
-#lojaBaus {
-    background: #201b2c;
-    border: 2px solid #a875ff;
-    border-radius: 15px;
-    padding: 20px;
-    max-width: 850px;
-    margin: 25px auto;
-}
-
-#lojaBaus h1 { color: #c49aff; }
-
-.bau {
-    background: #292929;
-    border: 2px solid #a875ff;
-    border-radius: 12px;
-    padding: 18px;
-    margin: 15px auto;
-    max-width: 500px;
-}
-
-.bau h2 { color: #d6baff; }
-
-#resultadoBau {
-    background: #292929;
-    padding: 15px;
-    border-radius: 10px;
-    color: gold;
-    font-weight: bold;
-}
-
-.itemInventario {
-    background: #292929;
-    border: 1px solid #a875ff;
-    border-radius: 10px;
-    padding: 12px;
-    margin: 10px auto;
-    max-width: 450px;
-}
-
-.itemInventario h3 { color: gold; }
-.itemInventario button { margin-top: 8px; }
-
-.equipado {
-    color: #54e68a;
-    font-weight: bold;
-}
-
-@media (max-width: 600px) {
-    button { max-width: 100%; }
-    #lojaGolds, #painelAdmin, #lojaBaus { padding: 12px; }
-}
-
-/* Inventário e atributos em cartões compactos e lado a lado */
-#inventarioItens,
-#atributosItens {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: stretch;
-    gap: 10px;
-    width: 100%;
-}
-
-.itemInventario {
-    box-sizing: border-box;
-    flex: 0 1 190px;
-    width: auto;
-    max-width: 220px;
-    min-width: 150px;
-    padding: 10px;
-    margin: 0;
-    overflow-wrap: anywhere;
-}
-
-.itemInventario h3 {
-    margin: 4px 0 8px;
-    font-size: 16px;
-}
-
-.itemInventario p {
-    margin: 5px 0;
-    font-size: 13px;
-}
-
-.itemInventario button {
-    padding: 8px 12px;
-    margin-top: 7px;
-    font-size: 14px;
-}
-
-@media (max-width: 600px) {
-    .itemInventario {
-        flex: 1 1 140px;
-        min-width: 0;
-        max-width: 100%;
-        padding: 8px;
-    }
+@media (max-width: 360px) {
+  .item-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
 }

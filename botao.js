@@ -842,6 +842,19 @@ let todosItens = [
         bonusCiclo: 20,
         intervalo: 0,
         conversao: 800
+    },
+
+    // ITEM EXCLUSIVO DO SERVIDOR
+    {
+        id: "coroaPrimeiro",
+        nome: "Coroa do Primeiro",
+        categoria: "unico",
+        raridade: "ÚNICO",
+        descricao: "Troféu exclusivo: apenas uma pessoa pode conquistar pelos baús.",
+        bonusClique: 500,
+        bonusCiclo: 1000,
+        intervalo: -900,
+        conversao: 1000000000
     }
 
 ];
@@ -853,8 +866,63 @@ let inventarioItens = [];
 let itensEquipados = {
     clique: null,
     intervalo: null,
-    producao: null
+    producao: null,
+    unico: null
 };
+
+// Controle simples: vale apenas nesta sessão/navegador.
+// O banco de dados será necessário para compartilhar isso entre jogadores.
+let coroaDoPrimeiroConquistada = false;
+
+
+// ==========================================
+// ADICIONAR ITENS PELO ADM
+// ==========================================
+
+const selecionarItemAdmin = document.getElementById("selecionarItemAdmin");
+const quantidadeItemAdmin = document.getElementById("quantidadeItemAdmin");
+const adicionarItemAdmin = document.getElementById("adicionarItemAdmin");
+const mensagemItemAdmin = document.getElementById("mensagemItemAdmin");
+
+function carregarItensNoAdmin() {
+    if (!selecionarItemAdmin) return;
+
+    selecionarItemAdmin.innerHTML = "";
+
+    todosItens.forEach(function(item) {
+        const opcao = document.createElement("option");
+        opcao.value = item.id;
+        opcao.textContent = item.nome + " (" + item.raridade + ")";
+        selecionarItemAdmin.appendChild(opcao);
+    });
+}
+
+if (adicionarItemAdmin) {
+    carregarItensNoAdmin();
+
+    adicionarItemAdmin.addEventListener("click", function() {
+        const id = selecionarItemAdmin.value;
+        const quantidade = Number(quantidadeItemAdmin.value);
+        const item = todosItens.find(function(i) { return i.id === id; });
+
+        if (!item || !Number.isSafeInteger(quantidade) || quantidade < 1 || quantidade > 1000) {
+            mensagemItemAdmin.textContent = "Escolha um item e uma quantidade entre 1 e 1000.";
+            return;
+        }
+
+        for (let i = 0; i < quantidade; i++) {
+            inventarioItens.push(item.id);
+        }
+
+        if (item.id === "coroaPrimeiro") {
+            coroaDoPrimeiroConquistada = true;
+        }
+
+        mensagemItemAdmin.textContent = quantidade + "x " + item.nome + " adicionado(s) ao inventário. O ADM pode duplicar itens ÚNICOS.";
+        quantidadeItemAdmin.value = "1";
+        mostrarInventario();
+    });
+}
 
 
 // ==========================================
@@ -928,6 +996,18 @@ let probabilidadesBaus = {
 // ==========================================
 
 function sortearItem(tipo) {
+
+    // Chance independente para a raridade ÚNICO.
+    // 0,01% madeira | 0,02% prata | 0,03% ouro.
+    const chancesUnico = {
+        madeira: 0.01,
+        prata: 0.02,
+        ouro: 0.03
+    };
+
+    if (!coroaDoPrimeiroConquistada && Math.random() * 100 < chancesUnico[tipo]) {
+        return todosItens.find(item => item.id === "coroaPrimeiro");
+    }
 
     let probabilidades = probabilidadesBaus[tipo];
 
@@ -1015,9 +1095,17 @@ function abrirBau(tipo, moeda) {
 
     let item = sortearItem(tipo);
 
-    // Item repetido vira moedas.
+    // A Coroa do Primeiro nunca é sorteada novamente nesta sessão.
+    // O ADM pode adicioná-la manualmente mais de uma vez pelo painel.
+    if (item.id === "coroaPrimeiro") {
 
-    if (inventarioItens.includes(item.id)) {
+        coroaDoPrimeiroConquistada = true;
+        inventarioItens.push(item.id);
+
+        document.getElementById("resultadoBau").textContent =
+            "👑 INCRÍVEL! Você conquistou a Coroa do Primeiro! É o ÚNICO jogador desta sessão!";
+
+    } else if (inventarioItens.includes(item.id)) {
 
         moedas += item.conversao;
 

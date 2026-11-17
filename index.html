@@ -1,172 +1,265 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Jogo</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171717">
+  <title>Meu Jogo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <h1>Minhas Moedas</h1>
-
-    <p>Saldo: <span id="moedas">0</span> moedas</p>
-    <p>Por clique: <span id="ganhoTexto">1</span> moedas</p>
-    <p>Por ciclo: <span id="ganhoSegundoTexto">1</span> moedas</p>
-    <p>Intervalo: <span id="intervaloTexto">1 segundo</span></p>
-
-    <button id="botaomoeda">Ganhar moedas</button>
-
-    <hr>
-
-    <h2>🛒 Loja Normal</h2>
-
-    <button id="upgrade">Upgrade de clique - 10 moedas</button>
-    <button id="upgradesegundo">Upgrade por segundo - 20 moedas</button>
-
-    <hr>
-
-    <h2>👑 Loja VIP</h2>
-
-    <div id="lojaVip">
-        <p id="statusVip">🔒 Área exclusiva VIP</p>
-        <button id="botaoVip">VIP liberado somente por código</button>
-
-        <div id="upgradesVip" style="display: none;">
-            <button id="upgradeVip">Upgrade VIP - +10 por clique</button>
-            <button id="upgradeVipSegundo">Upgrade VIP - +10 por segundo</button>
-        </div>
-
-        <h3>🎁 Código VIP</h3>
-        <input type="text" id="codigoInput" placeholder="Digite seu código">
-        <button id="resgatarCodigo">Resgatar</button>
-        <p id="mensagemCodigo"></p>
+  <div class="app-shell">
+    <div class="mobile-topbar">
+      <button id="abrirMenu" class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      <strong>👑 MEU JOGO</strong>
+      <span class="mobile-balance">🪙 <span id="saldoMobile">0</span></span>
     </div>
 
-    <hr>
+    <div id="fundoMenu" class="menu-backdrop"></div>
+    <aside id="menuLateral" class="sidebar">
+      <div class="brand">👑 <span>MEU JOGO</span></div>
+      <p class="menu-caption">NAVEGAÇÃO</p>
+      <nav class="nav-menu" aria-label="Menu principal">
+        <button class="nav-item active" data-page="cliques">🖱️ <span>Cliques</span></button>
+        <button class="nav-item" data-page="loja">🛒 <span>Loja normal</span></button>
+        <button class="nav-item" data-page="golds">💰 <span>Loja de Golds</span></button>
+        <button class="nav-item" data-page="baus">🎁 <span>Baús</span></button>
+        <button class="nav-item" data-page="inventario">🎒 <span>Inventário</span></button>
+        <button class="nav-item" data-page="atributos">⚙️ <span>Atributos</span></button>
+        <button class="nav-item" data-page="vip">👑 <span>Área VIP</span></button>
+        <button class="nav-item" data-page="admin">🔐 <span>Administrador</span></button>
+      </nav>
+      <div class="sidebar-footer">Boa diversão! ✨</div>
+    </aside>
 
-    <div id="lojaGolds">
-        <h1>💰 Loja Especial</h1>
-        <p>Seus Golds: <strong id="saldoGolds">0</strong> 🪙</p>
-        <p>Compre produtos utilizando seus Golds!</p>
-        <div id="produtosLoja">
-            <p>Nenhum produto disponível no momento.</p>
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">SEU PROGRESSO</p>
+          <h1 id="tituloPagina">🖱️ Cliques</h1>
         </div>
-        <hr>
-        <h2>📜 Histórico de compras</h2>
-        <div id="historicoCompras">
-            <p>Nenhuma compra realizada.</p>
+        <div class="header-balance">🪙 <span id="saldoCabecalho">0</span> moedas</div>
+      </header>
+
+      <section class="page active" id="page-cliques" data-title="🖱️ Cliques">
+        <div class="hero-card">
+          <p class="eyebrow">SALDO ATUAL</p>
+          <div class="coin-total"><span id="moedas">0</span></div>
+          <p class="muted">moedas disponíveis</p>
+          <button id="botaomoeda" class="primary-button click-button">＋ GANHAR MOEDAS</button>
+          <div class="stats-row">
+            <div class="stat"><span>Por clique</span><strong><span id="ganhoTexto">1</span></strong></div>
+            <div class="stat"><span>Por ciclo</span><strong><span id="ganhoSegundoTexto">1</span></strong></div>
+            <div class="stat"><span>Intervalo</span><strong><span id="intervaloTexto">1 segundo</span></strong></div>
+          </div>
         </div>
-    </div>
-
-    <hr>
-
-    <div id="lojaBaus">
-        <h1>🎁 Loja de Baús</h1>
-        <p>Escolha seu baú e descubra seu prêmio!</p>
-
-        <div class="bau">
-            <h2>🪵 Baú de Madeira</h2>
-            <p>Baú para quem está começando.</p>
-            <p>500 moedas ou 10 Golds</p>
-            <button onclick="abrirBau('madeira', 'moedas')">Comprar com moedas</button>
-            <button onclick="abrirBau('madeira', 'golds')">Comprar com Golds</button>
+        <div class="content-card">
+          <h2>🚀 Melhorias rápidas</h2>
+          <p class="muted">Use suas moedas para aumentar sua produção.</p>
+          <div class="action-grid">
+            <button id="upgrade">Upgrade de clique - 10 moedas</button>
+            <button id="upgradesegundo">Upgrade por segundo - 20 moedas</button>
+          </div>
         </div>
+      </section>
 
-        <div class="bau">
-            <h2>🥈 Baú de Prata</h2>
-            <p>Possui itens melhores e mais raros.</p>
-            <p>2.500 moedas ou 40 Golds</p>
-            <button onclick="abrirBau('prata', 'moedas')">Comprar com moedas</button>
-            <button onclick="abrirBau('prata', 'golds')">Comprar com Golds</button>
+      <section class="page" id="page-loja" data-title="🛒 Loja normal">
+        <div class="content-card">
+          <h2>🛒 Loja Normal</h2>
+          <p class="muted">Melhore seus ganhos usando moedas normais.</p>
+          <div class="action-grid">
+            <button id="upgrade">Upgrade de clique - 10 moedas</button>
+            <button id="upgradesegundo">Upgrade por segundo - 20 moedas</button>
+          </div>
         </div>
+      </section>
 
-        <div class="bau">
-            <h2>🥇 Baú de Ouro</h2>
-            <p>Possui grandes recompensas!</p>
-            <p>10.000 moedas ou 150 Golds</p>
-            <button onclick="abrirBau('ouro', 'moedas')">Comprar com moedas</button>
-            <button onclick="abrirBau('ouro', 'golds')">Comprar com Golds</button>
+      <section class="page" id="page-golds" data-title="💰 Loja de Golds">
+        <div id="lojaGolds" class="content-card gold-card">
+          <h2>💰 Loja Especial</h2>
+          <p>Seus Golds: <strong id="saldoGolds">0</strong> 🪙</p>
+          <p class="muted">Compre produtos utilizando seus Golds!</p>
+          <div id="produtosLoja"><p>Nenhum produto disponível no momento.</p></div>
+          <hr>
+          <h2>📜 Histórico de compras</h2>
+          <div id="historicoCompras"><p>Nenhuma compra realizada.</p></div>
         </div>
+      </section>
 
-        <h2>🎉 Resultado do baú</h2>
-        <p id="resultadoBau">Você ainda não abriu nenhum baú.</p>
-
-        <hr>
-
-        <h2>🎒 Meu inventário</h2>
-        <div id="inventarioItens">
-            <p>Nenhum item conquistado.</p>
+      <section class="page" id="page-baus" data-title="🎁 Baús">
+        <div id="lojaBaus" class="content-card chest-section">
+          <h2>🎁 Loja de Baús</h2>
+          <p class="muted">Escolha seu baú e descubra seu prêmio!</p>
+          <div class="chest-grid">
+            <div class="bau">
+              <h3>🪵 Baú de Madeira</h3><p>Baú para quem está começando.</p><p>500 moedas ou 10 Golds</p>
+              <button onclick="abrirBau('madeira', 'moedas')">Comprar com moedas</button>
+              <button onclick="abrirBau('madeira', 'golds')">Comprar com Golds</button>
+            </div>
+            <div class="bau">
+              <h3>🥈 Baú de Prata</h3><p>Possui itens melhores e mais raros.</p><p>2.500 moedas ou 40 Golds</p>
+              <button onclick="abrirBau('prata', 'moedas')">Comprar com moedas</button>
+              <button onclick="abrirBau('prata', 'golds')">Comprar com Golds</button>
+            </div>
+            <div class="bau">
+              <h3>🥇 Baú de Ouro</h3><p>Possui grandes recompensas!</p><p>10.000 moedas ou 150 Golds</p>
+              <button onclick="abrirBau('ouro', 'moedas')">Comprar com moedas</button>
+              <button onclick="abrirBau('ouro', 'golds')">Comprar com Golds</button>
+            </div>
+          </div>
+          <div class="result-panel"><h3>🎉 Resultado do baú</h3><p id="resultadoBau">Você ainda não abriu nenhum baú.</p></div>
         </div>
+      </section>
 
-        <hr>
-
-        <h2>⚙️ Atributos atuais</h2>
-        <div id="atributosItens"></div>
-    </div>
-
-    <hr>
-
-    <div id="loginAdmin">
-        <h2>🔐 Área administrativa</h2>
-        <input type="password" id="senhaAdmin" placeholder="Digite sua senha">
-        <button id="entrarAdmin">Entrar</button>
-        <p id="mensagemLogin"></p>
-    </div>
-
-    <div id="painelAdmin">
-        <h1>👑 Painel de Administrador</h1>
-
-        <h3>Adicionar moedas normais</h3>
-        <input type="number" id="quantidadeMoedas" placeholder="Quantidade de moedas">
-        <button id="adicionarMoedas">Adicionar moedas</button>
-
-        <hr>
-
-        <h3>💰 Adicionar Golds</h3>
-        <input type="number" id="quantidadeGolds" placeholder="Quantidade de Golds">
-        <button id="adicionarGolds">Adicionar Golds</button>
-
-        <hr>
-
-        <h3>🛍️ Cadastrar produto na loja</h3>
-        <input type="text" id="nomeProduto" placeholder="Nome do produto">
-        <textarea id="descricaoProduto" placeholder="Descrição do produto"></textarea>
-        <input type="number" id="precoProduto" placeholder="Preço em Golds">
-        <input type="number" id="estoqueProduto" placeholder="Estoque (vazio = ilimitado)">
-        <button id="cadastrarProduto">Cadastrar produto</button>
-        <p id="mensagemProduto"></p>
-
-        <hr>
-
-        <h3>📦 Gerenciar produtos</h3>
-        <div id="gerenciarProdutos">
-            <p>Nenhum produto cadastrado.</p>
+      <section class="page" id="page-inventario" data-title="🎒 Inventário">
+        <div class="content-card">
+          <h2>🎒 Meu inventário</h2>
+          <p class="muted">Veja seus itens conquistados e equipe seus favoritos.</p>
+          <div id="inventarioItens" class="item-grid"><p>Nenhum item conquistado.</p></div>
         </div>
+      </section>
 
-        <hr>
+      <section class="page" id="page-atributos" data-title="⚙️ Atributos">
+        <div class="content-card">
+          <h2>⚙️ Atributos atuais</h2>
+          <p class="muted">Confira os bônus recebidos pelos equipamentos.</p>
+          <div id="atributosItens" class="item-grid"></div>
+        </div>
+      </section>
 
-        <h3>🎟️ Criar código VIP</h3>
-        <input type="text" id="novoCodigo" placeholder="Nome do código">
-        <button id="criarCodigo">Criar código</button>
-        <p id="listaCodigos"></p>
+      <section class="page" id="page-vip" data-title="👑 Área VIP">
+        <div id="lojaVip" class="content-card vip-card">
+          <h2>👑 Loja VIP</h2>
+          <p id="statusVip">🔒 Área exclusiva VIP</p>
+          <button id="botaoVip">VIP liberado somente por código</button>
+          <div id="upgradesVip" style="display:none;">
+            <h3>Melhorias VIP</h3>
+            <div class="action-grid">
+              <button id="upgradeVip">Upgrade VIP - +10 por clique</button>
+              <button id="upgradeVipSegundo">Upgrade VIP - +10 por segundo</button>
+            </div>
+          </div>
+          <hr>
+          <h3>🎁 Código VIP</h3>
+          <div class="inline-form">
+            <input type="text" id="codigoInput" placeholder="Digite seu código">
+            <button id="resgatarCodigo">Resgatar</button>
+          </div>
+          <p id="mensagemCodigo"></p>
+        </div>
+      </section>
 
-        <hr>
+      <section class="page" id="page-admin" data-title="🔐 Administrador">
+        <div id="loginAdmin" class="content-card">
+          <h2>🔐 Área administrativa</h2>
+          <input type="password" id="senhaAdmin" placeholder="Digite sua senha">
+          <button id="entrarAdmin">Entrar</button>
+          <p id="mensagemLogin"></p>
+        </div>
+        <div id="painelAdmin" class="content-card admin-card">
+          <h2>👑 Painel de Administrador</h2>
+          <div class="admin-grid">
+            <div class="admin-block">
+              <h3>Adicionar moedas normais</h3>
+              <input type="number" id="quantidadeMoedas" placeholder="Quantidade de moedas">
+              <button id="adicionarMoedas">Adicionar moedas</button>
+            </div>
+            <div class="admin-block">
+              <h3>💰 Adicionar Golds</h3>
+              <input type="number" id="quantidadeGolds" placeholder="Quantidade de Golds">
+              <button id="adicionarGolds">Adicionar Golds</button>
+            </div>
+            <div class="admin-block">
+              <h3>🛍️ Cadastrar produto na loja</h3>
+              <input type="text" id="nomeProduto" placeholder="Nome do produto">
+              <textarea id="descricaoProduto" placeholder="Descrição do produto"></textarea>
+              <input type="number" id="precoProduto" placeholder="Preço em Golds">
+              <input type="number" id="estoqueProduto" placeholder="Estoque (vazio = ilimitado)">
+              <button id="cadastrarProduto">Cadastrar produto</button>
+              <p id="mensagemProduto"></p>
+            </div>
+            <div class="admin-block">
+              <h3>📦 Gerenciar produtos</h3>
+              <div id="gerenciarProdutos"><p>Nenhum produto cadastrado.</p></div>
+            </div>
+            <div class="admin-block">
+              <h3>🎟️ Criar código VIP</h3>
+              <input type="text" id="novoCodigo" placeholder="Nome do código">
+              <button id="criarCodigo">Criar código</button>
+              <p id="listaCodigos"></p>
+            </div>
+            <div class="admin-block">
+              <h3>Upgrades gratuitos</h3>
+              <button id="upgradeGratisClique">+10 moedas por clique</button>
+              <button id="upgradeGratisSegundo">+10 moedas por segundo</button>
+            </div>
+            <div class="admin-block">
+              <h3>🎒 Adicionar itens ao inventário</h3>
+              <p>O ADM pode adicionar e duplicar qualquer item, inclusive os ÚNICOS.</p>
+              <select id="selecionarItemAdmin"></select>
+              <input type="number" id="quantidadeItemAdmin" min="1" max="1000" value="1" placeholder="Quantidade">
+              <button id="adicionarItemAdmin">Adicionar item</button>
+              <p id="mensagemItemAdmin"></p>
+            </div>
+            <div class="admin-block">
+              <h3>Controle VIP</h3>
+              <button id="ativarVipAdmin">Ativar VIP</button>
+            </div>
+          </div>
+          <button id="sairAdmin" class="secondary-button">Sair do painel</button>
+        </div>
+      </section>
 
-        <h3>Upgrades gratuitos</h3>
-        <button id="upgradeGratisClique">+10 moedas por clique</button>
-        <button id="upgradeGratisSegundo">+10 moedas por segundo</button>
+      <div class="back-row">
+        <button id="voltarCliques" class="secondary-button">← Voltar aos Cliques</button>
+      </div>
+    </main>
+  </div>
 
-        <hr>
+  <script src="botao.js"></script>
+  <script>
+    (function () {
+      const pages = Array.from(document.querySelectorAll(".page"));
+      const navButtons = Array.from(document.querySelectorAll(".nav-item"));
+      const title = document.getElementById("tituloPagina");
+      const sidebar = document.getElementById("menuLateral");
+      const backdrop = document.getElementById("fundoMenu");
+      const menuToggle = document.getElementById("abrirMenu");
 
-        <h3>Controle VIP</h3>
-        <button id="ativarVipAdmin">Ativar VIP</button>
+      function abrirPagina(nome) {
+        pages.forEach(page => page.classList.toggle("active", page.id === "page-" + nome));
+        navButtons.forEach(button => button.classList.toggle("active", button.dataset.page === nome));
+        const pagina = document.getElementById("page-" + nome);
+        title.textContent = pagina ? pagina.dataset.title : "🖱️ Cliques";
+        fecharMenu();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
 
-        <hr>
+      function fecharMenu() {
+        sidebar.classList.remove("open");
+        backdrop.classList.remove("visible");
+        menuToggle.setAttribute("aria-expanded", "false");
+      }
 
-        <button id="sairAdmin">Sair do painel</button>
-    </div>
+      navButtons.forEach(button => button.addEventListener("click", () => abrirPagina(button.dataset.page)));
+      document.querySelectorAll("[data-page]:not(.nav-item)").forEach(button =>
+        button.addEventListener("click", () => abrirPagina(button.dataset.page))
+      );
+      document.getElementById("voltarCliques").addEventListener("click", () => abrirPagina("cliques"));
+      menuToggle.addEventListener("click", () => {
+        const aberto = sidebar.classList.toggle("open");
+        backdrop.classList.toggle("visible", aberto);
+        menuToggle.setAttribute("aria-expanded", String(aberto));
+      });
+      backdrop.addEventListener("click", fecharMenu);
 
-    <script src="botao.js"></script>
+      const observer = new MutationObserver(() => {
+        const saldo = document.getElementById("moedas").textContent;
+        document.getElementById("saldoCabecalho").textContent = saldo;
+        document.getElementById("saldoMobile").textContent = saldo;
+      });
+      observer.observe(document.getElementById("moedas"), { childList: true, characterData: true, subtree: true });
+    })();
+  </script>
 </body>
 </html>
